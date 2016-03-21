@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2016.1.22)  21 MAR 2016 15:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2016.1.22)  21 MAR 2016 16:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -788,35 +788,28 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10.95> on input line 47.
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 126.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 126.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 126.
- [2] [3] [4]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4]
 (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 13309 strings out of 493054
- 265284 string characters out of 6140586
+ 13294 strings out of 493054
+ 265086 string characters out of 6140586
  338018 words of memory out of 5000000
- 16556 multiletter control sequences out of 15000+600000
- 48152 words of font info for 44 fonts, out of 8000000 for 9000
+ 16544 multiletter control sequences out of 15000+600000
+ 37338 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,15n,60p,422b,832s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share
-/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf-dist/fonts/enc/d
+{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/s
+hare/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf-dist/fonts/enc/d
 vips/lm/lm-ec.enc}</usr/share/texmf-dist/fonts/type1/public/amsfonts/latxfont/l
 ine10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/share/t
 exmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/p
 ublic/lm/lmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></us
 r/share/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf-dist/fonts
 /type1/public/lm/lmr8.pfb>
-Output written on report.pdf (4 pages, 120737 bytes).
+Output written on report.pdf (4 pages, 120753 bytes).
 PDF statistics:
- 53 PDF objects out of 1000 (max. 8388607)
- 39 compressed objects within 1 object stream
+ 51 PDF objects out of 1000 (max. 8388607)
+ 37 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

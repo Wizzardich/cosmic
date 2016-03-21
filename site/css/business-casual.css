@@ -31,6 +31,10 @@ h6 {
     color: #000;
 }
 
+.legend {
+   list-style-type: none;
+}
+
 p {
     font-size: 1.25em;
     line-height: 1.6;
@@ -108,6 +112,10 @@ hr {
     margin: 0 auto 0;
 }
 
+.img-inline {
+    display: inline-block;
+}
+
 footer {
     background: #fff;
     background: rgba(255,255,255,0.9);
@@ -139,6 +147,10 @@ footer p {
     .img-left {
         float: left;
         margin-right: 25px;
+    }
+   
+    .img-inline {
+       display: inline-block;
     }
 
     .address-bar {

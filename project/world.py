@@ -1,9 +1,15 @@
 from civilization import *
 
 
+
 def participants():
     if input("Do you want to participate? (y/N) ") == "y":
         first = PlayerCivilization("player")
+        choice = input("Do you wish to choose an opponent? (b/m/N) ")
+        if choice == "b":
+            return first, BenevolentCivilization("somename2b")
+        elif choice == "m":
+            return first, MalevolentCivilization("somename2m")
     elif random.random() > 0.5:
         first = BenevolentCivilization("somename1b")
     else:
@@ -21,14 +27,14 @@ def simulate(civa, civb):
     civb.encounter(civa)
     rewards = []
     while len(rewards) == 0:
-        step = civa.step()
-        if civa.state in civa.rewards:
-            rewards.append(civa.rewards[civa.state][step])
+        stepa = civa.step()
         print(civa.state)
-        step = civb.step()
-        if civb.state in civb.rewards:
-            rewards.append(civb.rewards[civb.state][step])
+        stepb = civb.step()
         print(civb.state)
+        if civa.state in civa.rewards:
+            rewards.append(civa.rewards[civa.state][stepa])
+        if civb.state in civb.rewards:
+            rewards.append(civb.rewards[civb.state][stepb])
     print(rewards)
 
 

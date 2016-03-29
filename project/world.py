@@ -22,6 +22,19 @@ def participants():
     return first, second
 
 
+def statsrun(numberofsims):
+    for x in range(0, numberofsims):
+        print("Running...")
+        if random.random() > 0.5:
+            civ1 = BenevolentCivilization("somename1b")
+        else:
+            civ1 = MalevolentCivilization("somename1m")
+            if random.random() > 0.5:
+                civ2 = BenevolentCivilization("somename2b")
+            else:
+                civ2 = MalevolentCivilization("somename2m")
+        simulate(civ1, civ2)
+
 def simulate(civa, civb):
     civa.encounter(civb)
     civb.encounter(civa)
@@ -41,6 +54,11 @@ def simulate(civa, civb):
 flag = True
 
 while flag:
-    civ1, civ2 = participants()
-    simulate(civ1, civ2)
-    flag = input("Do you want to make another go? (y/N) ") == "y"
+    if input("a) multiple unattended simulations to collect statistics.\nb) manual simulations\nYour choice (a/B) ") == "a":
+            numberofsims = int(input("How many simulations would you like to run? "))
+            statsrun(numberofsims)
+    else:
+        civ1, civ2 = participants()
+        simulate(civ1, civ2)
+
+    flag = input("Do you want to have another go? (y/N) ") == "y"

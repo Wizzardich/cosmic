@@ -11,7 +11,7 @@ narrativize = {
     "contact": "tries to make contact with another civilization",
     "hide": "hides",
     "destroyed": "was destroyed",
-    "defended": "succesfully defended itself"
+    "defended": "successfully defended itself"
 }
 
 

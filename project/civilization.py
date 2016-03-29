@@ -16,7 +16,7 @@ class Civilization:
         self.tech = random.random() * CIV_MAX_TECH
         self.depth = random.randint(0, CIV_MAX_SUSPICION_DEPTH)
         self.detectability = CIV_DETECTABILITY
-        self.id = name
+        self.name = name
         self.state = "newly born"
         self.other = None
         self.automata = {

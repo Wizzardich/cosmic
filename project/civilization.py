@@ -161,7 +161,6 @@ class BenevolentCivilization(Civilization):
         return True
 
 
-
 def parse(attitudes):
     index = attitudes.find(str(CIV_MALEVOLENT_ATTITUDE))
     if index == -1:

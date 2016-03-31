@@ -40,35 +40,159 @@ def participants():
 
 
 def statsrun(numberofsims):
+    allstats = []
     for x in range(0, numberofsims):
-        print("Running...")
         if random.random() > 0.5:
-            civ1 = BenevolentCivilization("somename1b")
+            civ1 = BenevolentCivilization(random.choice(benevolents))
         else:
-            civ1 = MalevolentCivilization("somename1m")
-            if random.random() > 0.5:
-                civ2 = BenevolentCivilization("somename2b")
+            civ1 = MalevolentCivilization(random.choice(malevolents))
+        if random.random() > 0.5:
+            civ2 = BenevolentCivilization(random.choice(benevolents))
+        else:
+            civ2 = MalevolentCivilization(random.choice(malevolents))
+        allstats.append(simulate(civ1, civ2))
+
+    totalB = 0
+    totalM = 0
+    totalBdied = 0
+    totalMdied = 0
+    BbeatsM = 0
+    MbeatsB = 0
+    BbeatsB = 0
+    MbeatsM = 0
+    BhidesfromM = 0
+    MhidesfromM = 0
+    BhidesfromB = 0
+    BcooperatesB = 0
+    BcooperatesM = 0
+    McooperatesM = 0
+
+    for y in range(0, numberofsims):
+        civastats = allstats[y][0]
+        civbstats = allstats[y][1]
+        if (civastats[3] == 1) and (civbstats[3] == 0):
+            totalB += 1
+            totalM += 1
+            if civastats[4] == 'survives' and civbstats[4] == 'dies':
+                totalMdied += 1
+                BbeatsM += 1
+            elif civastats[4] == 'dies' and civbstats[4] == 'survives':
+                totalBdied += 1
+                MbeatsB += 1
+            elif civastats[4] == 'cooperates' and civbstats[4] == 'cooperates':
+                BcooperatesM += 1
+            elif civastats[4] == 'survives' and civbstats[4] == 'survives':
+                BhidesfromM += 1
             else:
-                civ2 = MalevolentCivilization("somename2m")
-        simulate(civ1, civ2)
+                print("-> " + str(civastats) + " AND " + str(civbstats))
+        elif (civastats[3] == 0) and (civbstats[3] == 1):
+            totalB += 1
+            totalM += 1
+            if civastats[4] == 'survives' and civbstats[4] == 'dies':
+                MbeatsB += 1
+                totalBdied += 1
+            elif civastats[4] == 'dies' and civbstats[4] == 'survives':
+                BbeatsM += 1
+                totalMdied += 1
+            elif civastats[4] == 'cooperates' and civbstats[4] == 'cooperates':
+                BcooperatesM += 1
+            elif civastats[4] == 'survives' and civbstats[4] == 'survives':
+                BhidesfromM += 1
+            else:
+                print("-> " + str(civastats) + " AND " + str(civbstats))
+        elif (civastats[3] == 0) and (civbstats[3] == 0):
+            totalM += 2
+            if civastats[4] == 'survives' and civbstats[4] == 'dies':
+                MbeatsM += 1
+                totalMdied += 1
+            elif civastats[4] == 'dies' and civbstats[4] == 'survives':
+                MbeatsM += 1
+                totalMdied += 1
+            elif civastats[4] == 'cooperates' and civbstats[4] == 'cooperates':
+                McooperatesM += 1
+            elif civastats[4] == 'survives' and civbstats[4] == 'survives':
+                MhidesfromM += 1
+            else:
+                print("-> " + str(civastats) + " AND " + str(civbstats))
+        elif (civastats[3] == 1) and (civbstats[3] == 1):
+            totalB += 2
+            if civastats[4] == 'survives' and civbstats[4] == 'dies':
+                BbeatsB += 1
+                totalBdied += 1
+            elif civastats[4] == 'dies' and civbstats[4] == 'survives':
+                BbeatsB += 1
+                totalBdied += 1
+            elif civastats[4] == 'cooperates' and civbstats[4] == 'cooperates':
+                BcooperatesB += 1
+            elif civastats[4] == 'survives' and civbstats[4] == 'survives':
+                BhidesfromB += 1
+            else:
+                print("-> " + str(civastats) + " AND " + str(civbstats))
+
+    print("Total benevolent civilizations: " + str(totalB) + " (" + str(totalBdied) + " died)")
+    print("Total malevolent civilizations: " + str(totalM) + " (" + str(totalMdied) + " died)")
+    print("benevolent beats malevolent: " + str(BbeatsM))
+    print("benevolent beats benevolent: " + str(BbeatsB))
+    print("malevolent beats benevolent: " + str(MbeatsB))
+    print("malevolent beats malevolent: " + str(MbeatsM))
+    print("benevolent cooperates with benevolent: " + str(BcooperatesB))
+    print("malevolent cooperates with benevolent: " + str(BcooperatesM))
+    print("malevolent cooperates with malevolent: " + str(McooperatesM))
+    print("benevolent hides from malevolent: " + str(BhidesfromM))
+    print("benevolent hides from benevolent: " + str(BhidesfromB))
+    print("malevolent hides from malevolent: " + str(MhidesfromM))
+
 
 def simulate(civa, civb):
+    print("-------------------------------------------------------------------")
     print("Modelling encounter for " + civa.name + " and " + civb.name)
     civa.encounter(civb)
     civb.encounter(civa)
     rewards = []
+    turncounter = 0
     while len(rewards) == 0:
         stepa = civa.step()
-        print("Current state of " + civa.name + " is: " + narrativize[civa.state])
+        print("[" + str(turncounter) + "] Current state of " + civa.name + " is: " + narrativize[civa.state])
         stepb = civb.step()
-        print("Current state of " + civb.name + " is: " + narrativize[civb.state])
+        print("[" + str(turncounter) + "] Current state of " + civb.name + " is: " + narrativize[civb.state])
         if civa.state in civa.rewards:
             rewards.append(civa.rewards[civa.state][stepa])
             print(civa.name + " civilization finishes. It " + str(civa.rewards[civa.state][stepa]))
         if civb.state in civb.rewards:
             rewards.append(civb.rewards[civb.state][stepb])
             print(civb.name + " civilization finishes. It " + str(civb.rewards[civb.state][stepb]))
+        turncounter += 1
 
+    stats = []
+    civastats = []
+    civastats.append(civa.tech)
+    civastats.append(civa.depth)
+    civastats.append(civa.detectability)
+    civastats.append(civa.attitude)
+
+    civbstats = []
+    civbstats.append(civb.tech)
+    civbstats.append(civb.depth)
+    civbstats.append(civb.detectability)
+    civbstats.append(civb.attitude)
+
+    if (civa.state == 'hide') or (civa.state == 'defended') or (civa.state == 'destroy') or (civa.state == 'preemptive') or (civa.state == 'discover') or (civa.state == 'newly born'):
+        civastats.append('survives')
+    elif (civa.state == 'contact'):
+        civastats.append('cooperates')
+    else:
+        civastats.append('dies')
+
+    if (civb.state == 'hide') or (civb.state == 'defended') or (civb.state == 'destroy') or (civb.state == 'preemptive') or (civb.state == 'discover') or (civb.state == 'newly born'):
+        civbstats.append('survives')
+    elif (civb.state == 'contact'):
+        civbstats.append('cooperates')
+    else:
+        civbstats.append('dies')
+
+    stats.append(civastats)
+    stats.append(civbstats)
+    return stats
 
 flag = True
 

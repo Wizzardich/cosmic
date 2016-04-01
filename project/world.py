@@ -66,10 +66,15 @@ def statsrun(numberofsims):
     BcooperatesB = 0
     BcooperatesM = 0
     McooperatesM = 0
+    cosDie = 0
+    cosDieTotal = 0
+    cosSurvive = 0
+    cosSurviveTotal = 0
 
     for y in range(0, numberofsims):
         civastats = allstats[y][0]
         civbstats = allstats[y][1]
+        # CivA benevolent and CivB malevolent
         if (civastats[3] == 1) and (civbstats[3] == 0):
             totalB += 1
             totalM += 1
@@ -85,6 +90,7 @@ def statsrun(numberofsims):
                 BhidesfromM += 1
             else:
                 print("-> " + str(civastats) + " AND " + str(civbstats))
+        # CivA malevolent and CivB benevolent
         elif (civastats[3] == 0) and (civbstats[3] == 1):
             totalB += 1
             totalM += 1
@@ -100,6 +106,7 @@ def statsrun(numberofsims):
                 BhidesfromM += 1
             else:
                 print("-> " + str(civastats) + " AND " + str(civbstats))
+        # CivA malevolent and CivB malevolent
         elif (civastats[3] == 0) and (civbstats[3] == 0):
             totalM += 2
             if civastats[4] == 'survives' and civbstats[4] == 'dies':
@@ -114,18 +121,33 @@ def statsrun(numberofsims):
                 MhidesfromM += 1
             else:
                 print("-> " + str(civastats) + " AND " + str(civbstats))
+        # CivA benevolent and CivB benevolent
         elif (civastats[3] == 1) and (civbstats[3] == 1):
             totalB += 2
             if civastats[4] == 'survives' and civbstats[4] == 'dies':
                 BbeatsB += 1
                 totalBdied += 1
+                cosSurvive += civastats[1]
+                cosSurviveTotal += 1
+                cosDie += civbstats[1]
+                cosDieTotal += 1
             elif civastats[4] == 'dies' and civbstats[4] == 'survives':
                 BbeatsB += 1
                 totalBdied += 1
+                cosSurvive += civbstats[1]
+                cosSurviveTotal += 1
+                cosDie += civastats[1]
+                cosDieTotal += 1
             elif civastats[4] == 'cooperates' and civbstats[4] == 'cooperates':
                 BcooperatesB += 1
+                cosSurvive += civbstats[1]
+                cosSurvive += civastats[1]
+                cosSurviveTotal += 2
             elif civastats[4] == 'survives' and civbstats[4] == 'survives':
                 BhidesfromB += 1
+                cosSurvive += civbstats[1]
+                cosSurvive += civastats[1]
+                cosSurviveTotal += 2
             else:
                 print("-> " + str(civastats) + " AND " + str(civbstats))
 
@@ -141,6 +163,8 @@ def statsrun(numberofsims):
     print("benevolent hides from malevolent: " + str(BhidesfromM))
     print("benevolent hides from benevolent: " + str(BhidesfromB))
     print("malevolent hides from malevolent: " + str(MhidesfromM))
+    print("Avg CoS depth resulting in death: " + str(round((cosDie / cosDieTotal), 2)))
+    print("Avg CoS depth resulting in survival: " + str(round((cosSurvive / cosSurviveTotal),2)))
 
 
 def simulate(civa, civb):

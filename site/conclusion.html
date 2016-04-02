@@ -89,12 +89,15 @@ dfsdf
                                     <li>Technical level. A real number in range <code>0-10</code>.
                                         This number represents technical prowess of the population.
                                         It being a real number constitutes subtle difference even between
-                                        civilizations of the same scale.
+                                        civilizations of the same scale. During an armed conflict this parameter
+                                        defines who wins and who dies.
                                     </li>
                                     <li>Depth of suspicion. An integer number in range <code>0-7</code>.
                                         Represents societal arguments about other civilization's attitude. Is it worth
                                         making contact, if another society may be malevolent? Or, maybe, if another society
                                         is benevolent, but thinks that we are malevolent and may try to destroy us anyway?
+                                        During the lifetime of a benevolent civilization this parameter defines its chances
+                                        to make a preemptive strike, to hide ot to make contact.
                                     </li>
                                     <li>State automaton. A representation of BDI model. Possible actions to take at any
                                         given point in time. Slightly different for different types of civilizations. For
@@ -120,7 +123,7 @@ dfsdf
                                 </ul>
                             </li>
                         </ul>
-                    </p>
+
                 </div>
             </div>
         </div>
@@ -131,7 +134,92 @@ dfsdf
                     <hr>
                     <h2 class="intro-text text-center"><strong>Encounter Examples</strong></h2>
                     <hr>
-                    2. Take two examples of simulations
+                    <p>An example of an encounter modelled for two malevolent civilizations. The Reavers detect Klingons
+                    during the second rotation and try to destroy them. But, unfortunately for them, Klingons apparently
+                    had a quite advanced tech and were able to completely wipe The Reavers out. Klingons survive.
+                    <pre>
+Modelling encounter for Klingon and The Reavers
+[0] Current state of Klingon is: clueless and unsuspecting
+[0] Current state of The Reavers is: clueless and unsuspecting
+[1] Current state of Klingon is: clueless and unsuspecting
+[1] Current state of The Reavers is: discovered another civilization
+[2] Current state of Klingon is: clueless and unsuspecting
+The Reavers failed to destroy Klingon
+[2] Current state of The Reavers is: was destroyed
+Klingon civilization finishes. It survives
+The Reavers civilization finishes. It dies</pre>
+                    <p>
+                        An example fo an encounter modelled for two benevolent civilizations. Both the Culture and the
+                        United Federation detect each other right away. The Culture - quite uncharacteristically -
+                        attempts a preemptive strike against UF, sending it to oblivion and beyond.
+                    <pre>
+Modelling encounter for Culture and United Federation
+[0] Current state of Culture is: discovered another civilization
+[0] Current state of United Federation is: discovered another civilization
+[1] Current state of Culture is: attempts a preemptive strikes at another civilization
+                                 due to belief of it being malevolent, or expecting a preemptive strike
+[1] Current state of United Federation is: was destroyed
+Culture civilization finishes. It survives
+United Federation civilization finishes. It dies</pre>
+                    <p>
+                        That one time when the United Federeation was far more successful and cooperation ensured.
+                    <pre>
+Modelling encounter for Browncoats and United Federation
+[0] Current state of Browncoats is: discovered another civilization
+[0] Current state of United Federation is: discovered another civilization
+[1] Current state of Browncoats is: tries to make contact with another civilization
+[1] Current state of United Federation is: tries to make contact with another civilization
+Browncoats civilization finishes. It cooperates
+United Federation civilization finishes. It cooperates</pre>
+                    <p>
+                        An example of an encounter between player and a benevolent civilization. Player has utmost control
+                        over simulation and decides that his civilization will surely discover the other one on the first
+                        turn. Then the player, being fairly naive, tries to hail the other civilization to cooperate with
+                        them. He succeeds though. And they lived happily ever after.
+                    <pre>
+Modelling encounter for player and Browncoats
+Oh wise ruler! What should we do?
+&nbsp;&nbsp;&nbsp;&nbsp;0. discover?
+&nbsp;&nbsp;&nbsp;&nbsp;1. newly born?
+What will it be, wise one? 0
+[0] Current state of player is: discovered another civilization
+[0] Current state of Browncoats is: discovered another civilization
+Oh wise ruler! What should we do?
+&nbsp;&nbsp;&nbsp;&nbsp;0. destroy?
+&nbsp;&nbsp;&nbsp;&nbsp;1. contact?
+&nbsp;&nbsp;&nbsp;&nbsp;2. hide?
+What will it be, wise one? 1
+We will contact other civilization immediately. Keep your fingers crossed so they don't destroy us.
+[1] Current state of player is: tries to make contact with another civilization
+[1] Current state of Browncoats is: tries to make contact with another civilization
+player civilization finishes. It cooperates
+Browncoats civilization finishes. It cooperates</pre>
+                        <p>
+                            Another example of player driven encounter. This time other civilization naively contacts player
+                            with dreams of cooperation but those get shuttered right away when player perform Exterminatus
+                            against fair Asari.
+                    <pre>
+Modelling encounter for player and Asari
+Oh wise ruler! What should we do?
+&nbsp;&nbsp;&nbsp;&nbsp;0. discover?
+&nbsp;&nbsp;&nbsp;&nbsp;1. newly born?
+What will it be, wise one? 1
+[0] Current state of player is: clueless and unsuspecting
+[0] Current state of Asari is: discovered another civilization
+Oh wise ruler! What should we do?
+&nbsp;&nbsp;&nbsp;&nbsp;0. discover?
+&nbsp;&nbsp;&nbsp;&nbsp;1. newly born?
+What will it be, wise one? 1
+[1] Current state of player is: clueless and unsuspecting
+We received a transmission! We have two options:
+&nbsp;&nbsp;&nbsp;&nbsp;0. destroy?
+&nbsp;&nbsp;&nbsp;&nbsp;1. cooperate?
+How shall we proceed? 0
+We shall strike at those pesky creatures, and use all of their resources!
+Yes, oh wise one. We prevailed and began the process of assimilation
+[1] Current state of Asari is: was destroyed
+player civilization finishes. It prevails
+Asari civilization finishes. It dies</pre>
                 </div>
             </div>
         </div>
@@ -142,12 +230,51 @@ dfsdf
                     <hr>
                     <h2 class="intro-text text-center"><strong>Statistics and analysis</strong></h2>
                     <hr>
-                    3. Ran a test on 10000 cases
-                    4. Conclusions from test
+                    <p>
+                        We ran a number of simulated encounters to gather a statistics. Encounters were executed one by
+                        one, without taking into account previous experiences. As the focus of this project is a resolution
+                        of single encounter we were more interested in more secluded environments
+                    <pre>
+======================================================================
+             1000000 simulations completed in 64.69 seconds
+======================================================================
+Total benevolent civilizations: 999566 (276008 died)
+Total malevolent civilizations: 1000434 (464859 died)
+Malevolent destroys benevolent: 200601
+Malevolent destroys malevolent: 232587
+Malevolent hides from malevolent: 17462
+Benevolent destroys malevolent: 232272
+Benevolent hides from malevolent: 67463
+Benevolent destroys benevolent: 75407
+Benevolent hides from benevolent: 52007
+Benevolent cooperates with benevolent: 122201
+Avg CoS depth resulting in death: 3.72
+Avg CoS depth resulting in survival: 3.46
+======================================================================</pre>
+                    <p> First of all it is evident that approximately 74.08% (740867 out of 1000000) of all encounters
+                        end with a destruction of one of participating civilizations. This number is bad news for any
+                        society trying to make contact in Big Universe. Approximately two thirds of those are deaths of
+                        malevolent civilizations. This is understandable, as malevolents always go for an armed confrontation
+                        and have a 50% chance of having a higher tech level. Benevolents only make preemptive strikes or
+                        try to defend themselves. When they are trying to defend they again have a 50% chance of succeeding.
+                        Other deaths can be explained by preemptive strikes.
+                    <p> We distinguish a number of possible strategies for each civilization:
+                    <ul>
+                        <li> Destruction. "Destroy or be destroyed" as they say. This is a way that only malevolent civilizations
+                             take. Destruction of other civilization as soon as it is detected. </li>
+                        <li> Preemptive strikes. Sometimes event benevolent civilizations may be forced to take action.
+                             If one expects another one to strike first it may try to make a preemptive strike to be even
+                             faster. This kind of action was initiated in 7.5407% of benevolent-benevolent encounters. </li>
+                        <li> Stealth. Go into hiding is always an option for any civilization. If one just sits put and
+                             tries to do everything to stay undetected - it may actually survive. This accounts for 13.69%
+                             of all encounters in this particular mode</li>
+                        <li> Cooperation. The ultimate goal of any benevolent society. This is dangerous as it in. This outcome constitutes 12.22% of
+                             encounters</li>
+                        <li>Depth of Suspicion.</li>
+                    </ul>
                 </div>
             </div>
         </div>
-
     </div>
     <!-- /.container -->
 

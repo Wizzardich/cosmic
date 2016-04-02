@@ -40,7 +40,30 @@ def participants():
 
 
 def statsrun(numberofsims):
-    allstats = []
+    total = "n"
+    died = "died"
+
+    unrelated = ["newly born", "discover"]
+
+    benevolent = {
+        total: 0,
+        died: 0,
+        0: {"preemptive": 0, "contact": 0, "defended": 0, "hide": 0, "destroyed": 0},
+        1: {"preemptive": 0, "contact": 0, "defended": 0, "hide": 0, "destroyed": 0}
+    }
+
+    malevolent = {
+        total: 0,
+        died: 0,
+        0: {"destroy": 0, "defended": 0, "hide": 0, "destroyed": 0},
+        1: {"destroy": 0, "defended": 0, "hide": 0, "destroyed": 0}
+    }
+
+    attitude = {
+        CIV_MALEVOLENT_ATTITUDE: malevolent,
+        CIV_BENEVOLENT_ATTITUDE: benevolent
+    }
+
     import timeit
 
     start = timeit.default_timer()
@@ -54,130 +77,63 @@ def statsrun(numberofsims):
             civ2 = BenevolentCivilization(random.choice(benevolents))
         else:
             civ2 = MalevolentCivilization(random.choice(malevolents))
-        allstats.append(simulate(civ1, civ2))
+        simulate(civ1, civ2)
+        attitude[civ1.attitude][total] += 1
+        attitude[civ2.attitude][total] += 1
+
+        if not (civ1.state in unrelated):
+            attitude[civ1.attitude][civ2.attitude][civ1.state] += 1
+        if not (civ2.state in unrelated):
+            attitude[civ2.attitude][civ1.attitude][civ2.state] += 1
+
+        if civ1.state == civ2.state:
+            attitude[civ2.attitude][civ1.attitude][civ2.state] -= 1
+
+        if civ1.state == "destroyed":
+            attitude[civ1.attitude][died] += 1
+
+        if civ2.state == "destroyed":
+            attitude[civ2.attitude][died] += 1
 
     stop = timeit.default_timer()
-
-    totalB = 0
-    totalM = 0
-    totalBdied = 0
-    totalMdied = 0
-    BbeatsM = 0
-    MbeatsB = 0
-    BbeatsB = 0
-    MbeatsM = 0
-    BhidesfromM = 0
-    MhidesfromM = 0
-    BhidesfromB = 0
-    BcooperatesB = 0
-    BcooperatesM = 0
-    McooperatesM = 0
-    cosDie = 0
-    cosDieTotal = 0
-    cosSurvive = 0
-    cosSurviveTotal = 0
-
-    for y in range(0, numberofsims):
-        civastats = allstats[y][0]
-        civbstats = allstats[y][1]
-        # CivA benevolent and CivB malevolent
-        if (civastats[3] == 1) and (civbstats[3] == 0):
-            totalB += 1
-            totalM += 1
-            if civastats[4] == 'survives' and civbstats[4] == 'dies':
-                totalMdied += 1
-                BbeatsM += 1
-            elif civastats[4] == 'dies' and civbstats[4] == 'survives':
-                totalBdied += 1
-                MbeatsB += 1
-            elif civastats[4] == 'cooperates' and civbstats[4] == 'cooperates':
-                BcooperatesM += 1
-            elif civastats[4] == 'survives' and civbstats[4] == 'survives':
-                BhidesfromM += 1
-            else:
-                print("-> " + str(civastats) + " AND " + str(civbstats))
-        # CivA malevolent and CivB benevolent
-        elif (civastats[3] == 0) and (civbstats[3] == 1):
-            totalB += 1
-            totalM += 1
-            if civastats[4] == 'survives' and civbstats[4] == 'dies':
-                MbeatsB += 1
-                totalBdied += 1
-            elif civastats[4] == 'dies' and civbstats[4] == 'survives':
-                BbeatsM += 1
-                totalMdied += 1
-            elif civastats[4] == 'cooperates' and civbstats[4] == 'cooperates':
-                BcooperatesM += 1
-            elif civastats[4] == 'survives' and civbstats[4] == 'survives':
-                BhidesfromM += 1
-            else:
-                print("-> " + str(civastats) + " AND " + str(civbstats))
-        # CivA malevolent and CivB malevolent
-        elif (civastats[3] == 0) and (civbstats[3] == 0):
-            totalM += 2
-            if civastats[4] == 'survives' and civbstats[4] == 'dies':
-                MbeatsM += 1
-                totalMdied += 1
-            elif civastats[4] == 'dies' and civbstats[4] == 'survives':
-                MbeatsM += 1
-                totalMdied += 1
-            elif civastats[4] == 'cooperates' and civbstats[4] == 'cooperates':
-                McooperatesM += 1
-            elif civastats[4] == 'survives' and civbstats[4] == 'survives':
-                MhidesfromM += 1
-            else:
-                print("-> " + str(civastats) + " AND " + str(civbstats))
-        # CivA benevolent and CivB benevolent
-        elif (civastats[3] == 1) and (civbstats[3] == 1):
-            totalB += 2
-            if civastats[4] == 'survives' and civbstats[4] == 'dies':
-                BbeatsB += 1
-                totalBdied += 1
-                cosSurvive += civastats[1]
-                cosSurviveTotal += 1
-                cosDie += civbstats[1]
-                cosDieTotal += 1
-            elif civastats[4] == 'dies' and civbstats[4] == 'survives':
-                BbeatsB += 1
-                totalBdied += 1
-                cosSurvive += civbstats[1]
-                cosSurviveTotal += 1
-                cosDie += civastats[1]
-                cosDieTotal += 1
-            elif civastats[4] == 'cooperates' and civbstats[4] == 'cooperates':
-                BcooperatesB += 1
-                cosSurvive += civbstats[1]
-                cosSurvive += civastats[1]
-                cosSurviveTotal += 2
-            elif civastats[4] == 'survives' and civbstats[4] == 'survives':
-                BhidesfromB += 1
-                cosSurvive += civbstats[1]
-                cosSurvive += civastats[1]
-                cosSurviveTotal += 2
-            else:
-                print("-> " + str(civastats) + " AND " + str(civbstats))
 
     print("")
     print("======================================================================")
     print("             " + str(numberofsims) + " simulations completed in " + str(round((stop - start),2)) +" seconds")
     print("======================================================================")
-    print("Total benevolent civilizations: " + str(totalB) + " (" + str(totalBdied) + " died)")
-    print("Total malevolent civilizations: " + str(totalM) + " (" + str(totalMdied) + " died)")
+    print("Total benevolent civilizations: " + str(attitude[CIV_BENEVOLENT_ATTITUDE][total]) +
+          " (" + str(attitude[CIV_BENEVOLENT_ATTITUDE][died]) + " died)")
+    print("Total malevolent civilizations: " + str(attitude[CIV_MALEVOLENT_ATTITUDE][total]) +
+          " (" + str(attitude[CIV_MALEVOLENT_ATTITUDE][died]) + " died)")
 
-    print("Malevolent destroys benevolent: " + str(MbeatsB))
-    print("Malevolent destroys malevolent: " + str(MbeatsM))
-    print("Malevolent hides from malevolent: " + str(MhidesfromM))
+    print("Malevolent destroys benevolent: " +
+          str(attitude[CIV_BENEVOLENT_ATTITUDE][CIV_MALEVOLENT_ATTITUDE]["destroyed"]))
+    print("Malevolent destroys malevolent: " +
+          str(attitude[CIV_MALEVOLENT_ATTITUDE][CIV_MALEVOLENT_ATTITUDE]["destroyed"]))
+    print("Malevolent hides from malevolent: " +
+          str(attitude[CIV_MALEVOLENT_ATTITUDE][CIV_MALEVOLENT_ATTITUDE]["hide"]))
+    print("Malevolent hides from benevolent: " +
+          str(attitude[CIV_MALEVOLENT_ATTITUDE][CIV_BENEVOLENT_ATTITUDE]["hide"]))
 
-    print("Benevolent destroys malevolent: " + str(BbeatsM))
-    print("Benevolent hides from malevolent: " + str(BhidesfromM))
-    print("Benevolent destroys benevolent: " + str(BbeatsB))
-    print("Benevolent hides from benevolent: " + str(BhidesfromB))
-    print("Benevolent cooperates with benevolent: " + str(BcooperatesB))
+    print("Benevolent defends against malevolent: " +
+          str(attitude[CIV_BENEVOLENT_ATTITUDE][CIV_MALEVOLENT_ATTITUDE]["defended"]))
+    print("Benevolent successfully makes a preemptive strike against malevolent: " +
+          str(attitude[CIV_BENEVOLENT_ATTITUDE][CIV_MALEVOLENT_ATTITUDE]["preemptive"]))
+    print("Benevolent hides from malevolent: " +
+          str(attitude[CIV_BENEVOLENT_ATTITUDE][CIV_MALEVOLENT_ATTITUDE]["hide"]))
+    print("Benevolent destroys benevolent: " +
+          str(attitude[CIV_BENEVOLENT_ATTITUDE][CIV_BENEVOLENT_ATTITUDE]["preemptive"]))
+    print("Benevolent defends against a preemptive strike benevolent: " +
+          str(attitude[CIV_BENEVOLENT_ATTITUDE][CIV_BENEVOLENT_ATTITUDE]["defended"]))
+    print("Benevolent hides from benevolent: " +
+          str(attitude[CIV_BENEVOLENT_ATTITUDE][CIV_BENEVOLENT_ATTITUDE]["hide"]))
+    print("Benevolent cooperates with benevolent: " +
+          str(attitude[CIV_BENEVOLENT_ATTITUDE][CIV_BENEVOLENT_ATTITUDE]["contact"]))
     #print("Malevolent cooperates with benevolent: " + str(BcooperatesM))
     #print("Malevolent cooperates with malevolent: " + str(McooperatesM))
 
-    print("Avg CoS depth resulting in death: " + str(round((cosDie / cosDieTotal), 2)))
-    print("Avg CoS depth resulting in survival: " + str(round((cosSurvive / cosSurviveTotal),2)))
+    # print("Avg CoS depth resulting in death: " + str(round((cosDie / cosDieTotal), 2)))
+    # print("Avg CoS depth resulting in survival: " + str(round((cosSurvive / cosSurviveTotal),2)))
     print("======================================================================")
 
 
@@ -205,31 +161,6 @@ def simulate(civa, civb, output = False):
             if output:
                 print(civb.name + " civilization finishes. It " + str(civb.rewards[civb.state][stepb]))
         turncounter += 1
-
-    if not output:
-        stats = []
-        civa_stats = [civa.tech, civa.depth, civa.detectability, civa.attitude]
-        civb_stats = [civb.tech, civb.depth, civb.detectability, civb.attitude]
-
-        survive_states = ['hide', 'defended', 'destroy', 'preemptive', 'discover', 'newly born']
-
-        if civa.state in survive_states:
-            civa_stats.append('survives')
-        elif civa.state == 'contact':
-            civa_stats.append('cooperates')
-        else:
-            civa_stats.append('dies')
-
-        if civb.state in survive_states:
-            civb_stats.append('survives')
-        elif civb.state == 'contact':
-            civb_stats.append('cooperates')
-        else:
-            civb_stats.append('dies')
-
-        stats.append(civa_stats)
-        stats.append(civb_stats)
-        return stats
 
 flag = True
 

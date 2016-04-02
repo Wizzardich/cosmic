@@ -17,6 +17,7 @@ class Civilization:
     def __init__(self, name):
         self.tech = random.random() * CIV_MAX_TECH
         self.depth = random.randint(0, CIV_MAX_SUSPICION_DEPTH)
+        self.costext = None
         self.detectability = CIV_DETECTABILITY
         self.name = name
         self.state = "newly born"
@@ -168,12 +169,30 @@ class BenevolentCivilization(Civilization):
 
     def suspicion_chain(self):
         att = ""
+        chain = ""
+        chainLength = 0
         for i in range(0, self.depth):
             if random.random() > 0.5:
                 att += str(CIV_MALEVOLENT_ATTITUDE)
+                if chainLength % 2 == 0:
+                    chain += " thinks that the other civilization"
+                else:
+                    chain += " thinks that "
+                    chain += self.name
+                #print(self.name + chain + " is malevolent.")
+                self.costext = self.name + chain + " is malevolent."
                 return att
             else:
                 att += str(CIV_BENEVOLENT_ATTITUDE)
+                if chainLength % 2 == 0:
+                    chain += " thinks that the other civilization"
+                else:
+                    chain += " thinks that "
+                    chain += self.name
+            chainLength += 1
+        if chainLength > 0:
+            #print(self.name + chain + " is benevolent.")
+            self.costext = self.name + chain + " is benevolent."
         return att
 
     def cooperate(self):

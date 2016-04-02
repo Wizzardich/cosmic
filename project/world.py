@@ -185,6 +185,10 @@ def simulate(civa, civb, output = False):
     if output:
         print("----------------------------------------------------------------------")
         print("Modelling encounter for " + civa.name + " and " + civb.name)
+        if civa.costext != None:
+            print("CoS for Civ1: " + civa.costext)
+        if civb.costext != None:
+            print("CoS for Civ2: " + civb.costext)
     civa.encounter(civb)
     civb.encounter(civa)
     rewards = []

@@ -12,6 +12,8 @@ CIV_DETECTABILITY = 0.5
 
 class Civilization:
 
+    output = False
+
     def __init__(self, name):
         self.tech = random.random() * CIV_MAX_TECH
         self.depth = random.randint(0, CIV_MAX_SUSPICION_DEPTH)
@@ -95,6 +97,8 @@ class MalevolentCivilization(Civilization):
         if self.tech > self.other.tech:
             return self.other.die()
         else:
+            if Civilization.output:
+                print(self.name + " failed to destroy " + self.other.name)
             self.die()
             self.other.defended()
             return False
@@ -134,7 +138,8 @@ class BenevolentCivilization(Civilization):
             "preemptive": {True: "survives", False: "failed"},
             "hide": {True: "survives", False: "failed"},
             "contact": {True: "cooperates", False: "tries"},
-            "defended": {True: "survives", False: "failed"}
+            "defended": {True: "survives", False: "failed"},
+            "destroyed": {True: "dies", False: "failed"}
         }
 
     def step(self):
@@ -155,7 +160,10 @@ class BenevolentCivilization(Civilization):
         if self.tech > (self.other.tech - CIV_SURPRISE_BONUS):
             return self.other.die()
         else:
+            if Civilization.output:
+                print(self.name + " failed to destroy " + self.other.name)
             self.die()
+            self.other.defended()
             return False
 
     def suspicion_chain(self):

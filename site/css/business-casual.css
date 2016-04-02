@@ -101,6 +101,17 @@ hr {
     letter-spacing: 1px;
 }
 
+.parameters li {
+    font-size: 0.95em;
+}
+
+.subsection-text {
+    text-transform: uppercase;
+    font-size: 1.125em;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
 .img-border {
     float: none;
     margin: 0 auto 0;

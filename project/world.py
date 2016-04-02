@@ -235,7 +235,9 @@ while flag:
             numberOfSims = int(input("How many simulations would you like to run? "))
             statsrun(numberOfSims)
     else:
+        Civilization.output = True
         civ1, civ2 = participants()
         simulate(civ1, civ2, True)
+        Civilization.output = False
 
     flag = input("Do you want to have another go? (y/N) ") == "y"

@@ -175,65 +175,67 @@ def statsrun(numberofsims):
     print("======================================================================")
 
 
-def simulate(civa, civb):
-    print("----------------------------------------------------------------------")
-    print("Modelling encounter for " + civa.name + " and " + civb.name)
+def simulate(civa, civb, output = False):
+    if output:
+        print("----------------------------------------------------------------------")
+        print("Modelling encounter for " + civa.name + " and " + civb.name)
     civa.encounter(civb)
     civb.encounter(civa)
     rewards = []
     turncounter = 0
     while len(rewards) == 0:
         stepa = civa.step()
-        print("[" + str(turncounter) + "] Current state of " + civa.name + " is: " + narrativize[civa.state])
+        if output:
+            print("[" + str(turncounter) + "] Current state of " + civa.name + " is: " + narrativize[civa.state])
         stepb = civb.step()
-        print("[" + str(turncounter) + "] Current state of " + civb.name + " is: " + narrativize[civb.state])
+        if output:
+            print("[" + str(turncounter) + "] Current state of " + civb.name + " is: " + narrativize[civb.state])
         if civa.state in civa.rewards:
             rewards.append(civa.rewards[civa.state][stepa])
-            print(civa.name + " civilization finishes. It " + str(civa.rewards[civa.state][stepa]))
+            if output:
+                print(civa.name + " civilization finishes. It " + str(civa.rewards[civa.state][stepa]))
         if civb.state in civb.rewards:
             rewards.append(civb.rewards[civb.state][stepb])
-            print(civb.name + " civilization finishes. It " + str(civb.rewards[civb.state][stepb]))
+            if output:
+                print(civb.name + " civilization finishes. It " + str(civb.rewards[civb.state][stepb]))
         turncounter += 1
 
-    stats = []
-    civastats = []
-    civastats.append(civa.tech)
-    civastats.append(civa.depth)
-    civastats.append(civa.detectability)
-    civastats.append(civa.attitude)
+    if not output:
+        stats = []
+        civa_stats = [civa.tech, civa.depth, civa.detectability, civa.attitude]
+        civb_stats = [civb.tech, civb.depth, civb.detectability, civb.attitude]
 
-    civbstats = []
-    civbstats.append(civb.tech)
-    civbstats.append(civb.depth)
-    civbstats.append(civb.detectability)
-    civbstats.append(civb.attitude)
+        survive_states = ['hide', 'defended', 'destroy', 'preemptive', 'discover', 'newly born']
 
-    if (civa.state == 'hide') or (civa.state == 'defended') or (civa.state == 'destroy') or (civa.state == 'preemptive') or (civa.state == 'discover') or (civa.state == 'newly born'):
-        civastats.append('survives')
-    elif (civa.state == 'contact'):
-        civastats.append('cooperates')
-    else:
-        civastats.append('dies')
+        if civa.state in survive_states:
+            civa_stats.append('survives')
+        elif civa.state == 'contact':
+            civa_stats.append('cooperates')
+        else:
+            civa_stats.append('dies')
 
-    if (civb.state == 'hide') or (civb.state == 'defended') or (civb.state == 'destroy') or (civb.state == 'preemptive') or (civb.state == 'discover') or (civb.state == 'newly born'):
-        civbstats.append('survives')
-    elif (civb.state == 'contact'):
-        civbstats.append('cooperates')
-    else:
-        civbstats.append('dies')
+        if civb.state in survive_states:
+            civb_stats.append('survives')
+        elif civb.state == 'contact':
+            civb_stats.append('cooperates')
+        else:
+            civb_stats.append('dies')
 
-    stats.append(civastats)
-    stats.append(civbstats)
-    return stats
+        stats.append(civa_stats)
+        stats.append(civb_stats)
+        return stats
 
 flag = True
 
 while flag:
-    if input("a) multiple unattended simulations to collect statistics.\nb) manual simulations\nYour choice (a/B) ") == "a":
-            numberofsims = int(input("How many simulations would you like to run? "))
-            statsrun(numberofsims)
+    choice = input("a) multiple unattended simulations to collect statistics.\n" +
+                   "b) manual simulations\nYour choice (a/B) ")
+
+    if choice == "a":
+            numberOfSims = int(input("How many simulations would you like to run? "))
+            statsrun(numberOfSims)
     else:
         civ1, civ2 = participants()
-        simulate(civ1, civ2)
+        simulate(civ1, civ2, True)
 
     flag = input("Do you want to have another go? (y/N) ") == "y"

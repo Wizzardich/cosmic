@@ -151,24 +151,32 @@ def statsrun(numberofsims):
             else:
                 print("-> " + str(civastats) + " AND " + str(civbstats))
 
+    print("")
+    print("======================================================================")
+    print("     Summary for " + str(numberofsims) + " simulations")
+    print("======================================================================")
     print("Total benevolent civilizations: " + str(totalB) + " (" + str(totalBdied) + " died)")
     print("Total malevolent civilizations: " + str(totalM) + " (" + str(totalMdied) + " died)")
-    print("benevolent beats malevolent: " + str(BbeatsM))
-    print("benevolent beats benevolent: " + str(BbeatsB))
-    print("malevolent beats benevolent: " + str(MbeatsB))
-    print("malevolent beats malevolent: " + str(MbeatsM))
-    print("benevolent cooperates with benevolent: " + str(BcooperatesB))
-    print("malevolent cooperates with benevolent: " + str(BcooperatesM))
-    print("malevolent cooperates with malevolent: " + str(McooperatesM))
-    print("benevolent hides from malevolent: " + str(BhidesfromM))
-    print("benevolent hides from benevolent: " + str(BhidesfromB))
-    print("malevolent hides from malevolent: " + str(MhidesfromM))
+
+    print("Malevolent destroys benevolent: " + str(MbeatsB))
+    print("Malevolent destroys malevolent: " + str(MbeatsM))
+    print("Malevolent hides from malevolent: " + str(MhidesfromM))
+
+    print("Benevolent destroys malevolent: " + str(BbeatsM))
+    print("Benevolent hides from malevolent: " + str(BhidesfromM))
+    print("Benevolent destroys benevolent: " + str(BbeatsB))
+    print("Benevolent hides from benevolent: " + str(BhidesfromB))
+    print("Benevolent cooperates with benevolent: " + str(BcooperatesB))
+    #print("Malevolent cooperates with benevolent: " + str(BcooperatesM))
+    #print("Malevolent cooperates with malevolent: " + str(McooperatesM))
+
     print("Avg CoS depth resulting in death: " + str(round((cosDie / cosDieTotal), 2)))
     print("Avg CoS depth resulting in survival: " + str(round((cosSurvive / cosSurviveTotal),2)))
+    print("======================================================================")
 
 
 def simulate(civa, civb):
-    print("-------------------------------------------------------------------")
+    print("----------------------------------------------------------------------")
     print("Modelling encounter for " + civa.name + " and " + civb.name)
     civa.encounter(civb)
     civb.encounter(civa)

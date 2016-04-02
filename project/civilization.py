@@ -254,6 +254,6 @@ class PlayerCivilization(Civilization):
             print("They seem to be genuinely benevolent. Let us try to cooperate")
             self.state = "contact"
         else:
-            print("We cannot just seat still and do nothing! Commander, proceed with the Exterminatus!")
+            print("We cannot just sit still and do nothing! Commander, proceed with the Exterminatus!")
             return self.destroy()
         return True

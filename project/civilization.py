@@ -7,6 +7,7 @@ CIV_BENEVOLENT_ATTITUDE = 1
 CIV_MALEVOLENT_TRIGGER_HAPPY = 0.9
 CIV_BENEVOLENT_TALKATIVE = 0.9
 CIV_SURPRISE_BONUS = 2
+CIV_CONTACT_PENALTY = 2
 CIV_DETECTABILITY = 0.5
 
 
@@ -197,6 +198,7 @@ class BenevolentCivilization(Civilization):
 
     def cooperate(self):
         self.state = "contact"
+        self.tech -= CIV_CONTACT_PENALTY
         self.other.contacted()
         return True
 
@@ -267,6 +269,7 @@ class PlayerCivilization(Civilization):
 
     def cooperate(self):
         self.state = "contact"
+        self.tech -= CIV_CONTACT_PENALTY
         print("We will contact other civilization immediately. Keep your fingers crossed so they don't destroy us.")
         self.other.contacted()
         return True

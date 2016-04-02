@@ -41,6 +41,10 @@ def participants():
 
 def statsrun(numberofsims):
     allstats = []
+    import timeit
+
+    start = timeit.default_timer()
+
     for x in range(0, numberofsims):
         if random.random() > 0.5:
             civ1 = BenevolentCivilization(random.choice(benevolents))
@@ -51,6 +55,8 @@ def statsrun(numberofsims):
         else:
             civ2 = MalevolentCivilization(random.choice(malevolents))
         allstats.append(simulate(civ1, civ2))
+
+    stop = timeit.default_timer()
 
     totalB = 0
     totalM = 0
@@ -153,7 +159,7 @@ def statsrun(numberofsims):
 
     print("")
     print("======================================================================")
-    print("     Summary for " + str(numberofsims) + " simulations")
+    print("             " + str(numberofsims) + " simulations completed in " + str(round((stop - start),2)) +" seconds")
     print("======================================================================")
     print("Total benevolent civilizations: " + str(totalB) + " (" + str(totalBdied) + " died)")
     print("Total malevolent civilizations: " + str(totalM) + " (" + str(totalMdied) + " died)")

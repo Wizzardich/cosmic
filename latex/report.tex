@@ -237,10 +237,10 @@ g(coW) || g(s)
 h = go into hiding
 
 \begin{tikzpicture}[modal]
-\node[point] (t0) [label=below:$s$] {};
 
-\node[point] (t1) [label=below:$d_1$,label=above:$b$,above right=of t0] {};
-\node[point] (t2) [label=below:$d_1$,label=above:$m$,below right=of t0] {};
+
+\node[point] (t1) [label=left:$d_1$,label=above:$b$] {};
+\node[point] (t2) [label=below:$d_1$,label=left:$m$,below=of t1] {};
 
 \node[point] (t3) [label=below:$d_2$,label=above:$wb$,above right=of t1] {};
 \node[point] (t4) [label=below:$d_2$,label=above:$wm$,below right=of t1] {};
@@ -251,8 +251,7 @@ h = go into hiding
 \node[point] (t7) [label=below:$d_4$,label=above:$wb$,above right=of t5] {};
 \node[point] (t8) [label=below:$d_4$,label=above:$wm$,below right=of t5] {};
 
-\path[->] (t0) edge node [green, sloped] {} (t1);
-\path[->] (t0) edge node [green, sloped] {} (t2);
+\path[<->] (t1) edge node [green, sloped] {} (t2);
 
 \path[->] (t1) edge node [green, sloped] {} (t3);
 \path[->] (t1) edge node [green, sloped] {} (t4);

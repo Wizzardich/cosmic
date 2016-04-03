@@ -236,20 +236,26 @@
                    <h2 class="intro-text text-center"><strong>Kripke model for beliefs</strong></h2>
                    <hr>
                    <br>
-                   <div class="row">
-                     <div class="col-md-5">
-                       <p> The <strong>goal</strong> models represent the objectives the civilizations actively persue. Malevolent civilizations persue the discovery
-                         and annihilation of other civilizations. Only when they foresee defeat, they resort to hiding, as to not fail their primary need: survival.
-                         The goal of benevolent civilizations is to successfully make contact with other benevolent civilizations, and to hide or preemptively strike
-                         another civilization if this is needed in order to survive.</p>
-                       </div>
-                     <div class="col-md-7">
-                       <div>
-                         <img class="img-responsive" src="img/kripke.png" alt="" />
-                       </div>
-                    </div>
-                  </div>
-
+                       <img class="pull-right" src="img/kripke.png" alt="" />
+                       <p> The Big Universe is full of civilizations, each with their own attitude towards,
+                        and beliefs about the attitude of other civilizations. These attitudes and beliefs
+                        about them are very important to the benevolent civilizations. Malevolent civilizations
+                        are, as their name suggests, not looking to make friends, and will try to annihilate the
+                        other civilization upon discovery if possible. But benevolent civilizations
+                        do see cooperation as an important way of making progression. Because a benevolent
+                        civilization does not know the intentions of another civilization upon discovering it,
+                        it may have certain beliefs about what the other civilizations intentions are, and beliefs
+                        about what the other civilization thinks the intentions of them are.</p>
+                        <p> The model shown to the right represents a chain of suspicion with a depth of 3. In
+                        <i>d1</i> the initial belief of a civilization about another is represented as being either
+                        <i>b</i>, for benevolent, or <i>m</i>, for malevolent. If the civilization thinks the other
+                        civilization is malevolent, the chain stops, and the civilization goes into hiding. If the
+                        civilization thinks the other civilization is benevolent, there are two choices: the other
+                        civilization thinks we are malevolent (<i>wm</i>) or it thinks we are benevolent (<i>wb</i>).
+                        If we think they think we are malevolent we have two options: go into hiding or strike them
+                        preemptively, before they decide to strike us. The chain ends here. If we think they think
+                        we are benevolent, the chain continues. In theory this can go on forever, in our simulations
+                        we limit the depth of the chain to 7.</p>
                 </div>
              </div>
           </div>

@@ -102,7 +102,7 @@ hr {
 }
 
 .parameters li {
-    font-size: 0.95em;
+    font-size: 1.00em;
 }
 
 .subsection-text {
@@ -174,7 +174,7 @@ pre {
         float: left;
         margin-right: 25px;
     }
-   
+
     .img-inline {
        display: inline-block;
     }

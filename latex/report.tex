@@ -264,4 +264,28 @@ h = go into hiding
 \path[->] (t5) edge node [green, sloped] {} (t8);
 \end{tikzpicture}
 
+\section*{Kripke}
+One of the worlds know that the other one exists\\
+\begin{tikzpicture}[modal]
+\node[point] (s00) [label=above:$(0\,0)$] {};
+\node[point] (s01) [label=above:$(0\,1)$,right=of s00] {};
+
+\path[<->] (s00) edge node [green, sloped] {} (s01);
+\end{tikzpicture}
+\\
+\\
+Both worlds know that the other one exists\\
+\begin{tikzpicture}[modal]
+\node[point] (s00) [label=above:$(0\,0)$] {};
+\node[point] (s01) [label=above:$(0\,1)$,right=of s00] {};
+\node[point] (s10) [label=below:$(1\,0)$,below=of s00] {};
+\node[point] (s11) [label=below:$(1\,1)$,below=of s01] {};
+
+\path[<->] (s00) edge node [green, sloped] {} (s01);
+\path[<->] (s00) edge node [green, sloped] {} (s10);
+\path[<->] (s10) edge node [green, sloped] {} (s11);
+\path[<->] (s01) edge node [green, sloped] {} (s11);
+\end{tikzpicture}
+
+
 \end{document}

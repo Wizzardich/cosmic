@@ -63,6 +63,10 @@ hr {
     letter-spacing: 3px;
 }
 
+.navbar>.container {
+    width: 75%;
+}
+
 .img-full {
     min-width: 100%;
 }

@@ -39,18 +39,18 @@ def participants():
     return first, second
 
 
-def statsrun(numberofsims):
+def statsrun(numberofsims, malevolentsOnly):
     allstats = []
     import timeit
 
     start = timeit.default_timer()
 
     for x in range(0, numberofsims):
-        if random.random() > 0.5:
+        if random.random() > 0.5 and not malevolentsOnly:
             civ1 = BenevolentCivilization(random.choice(benevolents))
         else:
             civ1 = MalevolentCivilization(random.choice(malevolents))
-        if random.random() > 0.5:
+        if random.random() > 0.5 and not malevolentsOnly:
             civ2 = BenevolentCivilization(random.choice(benevolents))
         else:
             civ2 = MalevolentCivilization(random.choice(malevolents))
@@ -176,8 +176,9 @@ def statsrun(numberofsims):
     #print("Malevolent cooperates with benevolent: " + str(BcooperatesM))
     #print("Malevolent cooperates with malevolent: " + str(McooperatesM))
 
-    print("Avg CoS depth resulting in death: " + str(round((cosDie / cosDieTotal), 2)))
-    print("Avg CoS depth resulting in survival: " + str(round((cosSurvive / cosSurviveTotal),2)))
+    if not malevolentsOnly:
+        print("Avg CoS depth resulting in death: " + str(round((cosDie / cosDieTotal), 2)))
+        print("Avg CoS depth resulting in survival: " + str(round((cosSurvive / cosSurviveTotal),2)))
     print("======================================================================")
 
 
@@ -242,8 +243,9 @@ while flag:
                    "b) manual simulations\nYour choice (a/B) ")
 
     if choice == "a":
+            malevolentsOnly = input("Do you want a simulation with only malevolent civs? (y/N) ") == "y"
             numberOfSims = int(input("How many simulations would you like to run? "))
-            statsrun(numberOfSims)
+            statsrun(numberOfSims, malevolentsOnly)
     else:
         Civilization.output = True
         civ1, civ2 = participants()
